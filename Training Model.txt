@@ -1,0 +1,66 @@
+
+import ultralytics
+
+import supervision as sv
+
+import cv2
+
+import random
+
+from ultralytics import YOLO
+
+from roboflow import Roboflow
+
+from matplotlib import pyplot as plt
+
+import albumentations as A
+
+import numpy as np
+
+import torch
+
+import os
+
+from sklearn.model_selection import train_test_split
+
+from tqdm import tqdm
+
+import pyttsx3
+
+from itertools import groupby
+
+import argostranslate.package
+
+import argostranslate.translate
+
+
+
+
+
+
+
+
+
+
+
+
+'''
+if torch.cuda.is_available():
+    print("GPU is available")
+else:
+    print("GPU is not available")   
+'''
+
+'''
+model = YOLO('yolov8x-pose.yaml').load('yolov8x-pose.pt')
+if __name__ == '__main__':
+    results = model.train(data='kjldovpnqbd18out/data.yaml', epochs=50, imgsz=640, plots=True, batch=24) # Run inference on the source 
+
+'''
+'''
+if __name__ == '__main__':
+    model = YOLO (r'L:\Python Data\PoseTesting\PoseTesting\runs\pose\train15\weights\best.pt')
+    results = model.train(resume=True) # Resume training
+#metrics = model.val()
+'''
+
