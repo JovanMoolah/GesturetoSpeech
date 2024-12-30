@@ -1,2 +1,2 @@
 # GesturetoSpeech
-Gesture to Speech 
+A for loop for main code.
