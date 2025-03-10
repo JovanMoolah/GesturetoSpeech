@@ -1,0 +1,3 @@
+Weights: https://drive.google.com/file/d/12SURRv5_NBY8zzYoAG9jnqwcTp1nzo3p/view?usp=drive_link
+
+Place weights in runs/pose/train folder to use model. File is too large for github upload.
