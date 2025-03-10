@@ -1,0 +1,1 @@
+pyside6-uic UIForHandGesture.ui -o UIForHand.py
