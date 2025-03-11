@@ -5,7 +5,12 @@ Download, unzip and run exe.
 Program may work with only NVIDIA GPUs.
 
 # Installtion
+Install libraries:
+```
 pip install -r Requirements.txt
+```
+git clone https://github.com/argosopentech/argos-translate.git
+cd argos-translate
 
 # Gestures
 This application automatically convert gestures in ASL fingerspelling to text and then voice. It includes all numbers and letters. Gestures for 'j' and 'z' only include one position which is 'j4' for j and 'z1' or 'z2' for z.
