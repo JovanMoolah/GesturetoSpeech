@@ -5,4 +5,4 @@ Dataset used for model is based on: https://universe.roboflow.com/asl-pose/ameri
 
 Trained Model: https://drive.google.com/drive/folders/1lpts0kxiLK2yVnMADISJIGrfnF6CnAgJ?usp=drive_link
 
-Compiled Application: https://drive.google.com/drive/folders/12DimuNdPHbP13k8ecjJQuPPQ3RojFtf0?usp=sharing
+
