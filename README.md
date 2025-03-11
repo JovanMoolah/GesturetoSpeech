@@ -1,5 +1,4 @@
-# GesturetoSpeech
-# Gesture Information
+# Gestures
 This application automatically convert gestures in ASL fingerspelling to text and then voice. It includes all numbers and letters. Gestures for 'j' and 'z' only include one position which is 'j4' for j and 'z1' or 'z2' for z.
 
 Gestures for '0' and 'o', and 'v' and '2' are the same. If the previous gesture is a number, the gesture is '0' and '2'. If the previous gesture is a letter, the gesture is 'o' and 'v'. Default states for those gestures are 'o' and '2'.
@@ -17,4 +16,10 @@ The original dataset for the model can be found here: https://universe.roboflow.
 
 The dataset used to train the model can be found here: https://www.kaggle.com/datasets/jovanmoolah1/asl-pose-various-backgrounds
 
+# Speech
+For speech to work, please download languages and voices in Windows Languages settings. 
+Tutorial: https://support.microsoft.com/en-us/windows/language-packs-for-windows-a5094319-a92d-18de-5b53-1cfc697cfca8
 
+For Translation to work, please uncomment Argos translate package download and download desired model.
+Models can be found here: https://github.com/argosopentech/argos-translate/blob/master/argostranslate/languages.csv
+For example, English to Spanish would be: from_code="en", to_code="es" 
