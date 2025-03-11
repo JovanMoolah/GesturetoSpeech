@@ -58,9 +58,13 @@ Rate, pitch and volume controls the rate of speech, the pitch of the voice and v
 
 Gesture glosses that are captured to text box can be renamed by editing the textbox next to combobox mapping.
 
+Languages and voices for native (top) and translated (bottom) combo boxes can be changed. Languages must be installed in Windows Languages settings for it to be shown in the combobox.  
+
 When translate button is on, text is voiced in selected translate voice. When off text is voiced in native language. 
 
 Concurrent voices text in real-time after every whitespace. Only works for native language.
+
+Buttons for start, stop, pause and resume control the speech duration. It voices words currently in the text box. Use when you retain information after speaking, otherwise, use 'enter' gesture.
 
 Clear deletes all text in both native and translated text boxes.
 
