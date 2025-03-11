@@ -91,6 +91,7 @@ Online datasets can be evaluated with the model by changing stream source to ima
 A livestream source was added. Just type livestreaming url such as youtube or twitch. Note, there is too much latency for livestreaming to work effectively. 
 
 # Demo
+Demo Video of application:
+[![GesturetoSpeechDemo]](https://www.youtube.com/watch?v=5b50FgxteS8&ab_channel=JovanMoolah)
 
-[![IMAGE ALT TEXT HERE]](https://www.youtube.com/watch?v=5b50FgxteS8&ab_channel=JovanMoolah)
-
+Note, gestures are made infront a white background because complex backgrounds decreases detection probability.
