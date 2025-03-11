@@ -88,5 +88,7 @@ The model works well with white backgrounds up to 1.5m and cluttered background 
 
 Online datasets can be evaluated with the model by changing stream source to image and video, and typing directory location in text box next to stream source. 
 
-A livestream source was added. Just type livestreaming url such as youtube or twitch. Note, there is too much latency for livestreaming to work effectively.  
+A livestream source was added. Just type livestreaming url such as youtube or twitch. Note, there is too much latency for livestreaming to work effectively. 
 
+# Demo
+https://www.youtube.com/watch?v=5b50FgxteS8&ab_channel=JovanMoolah
