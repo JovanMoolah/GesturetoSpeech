@@ -91,6 +91,6 @@ Online datasets can be evaluated with the model by changing stream source to ima
 A livestream source was added. Just type livestreaming url such as youtube or twitch. Note, there is too much latency for livestreaming to work effectively. 
 
 # Demo
-```
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=5b50FgxteS8&ab_channel=JovanMoolah)
-```
+
