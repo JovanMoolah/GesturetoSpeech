@@ -52,7 +52,13 @@ For example, English to Spanish would be: from_code="en", to_code="es"
 # User-Interface
 ![image](https://github.com/user-attachments/assets/2508ddc6-059e-4678-bf4c-a2b78a654e41)
 
-Used synchronize button after manually editing text in the text box. It prevent an error in which old text is pasted back into box when manually deleting. 
+Gesture glosses that is captured to text box can be renamed by editing the textbox next to combobox mapping.
+
+When translate button is on, text is voiced in selected translate voice. When off text is voiced in native language. 
+
+Concurrent voices text in real-time after every whitespace. 
+
+Synchronize button synchronizes text box data with Gloss Record. It prevent an error in which old text is pasted back into box when manually inserting/deleting. 
 
 # Dataset
 The original dataset for the model can be found here: 
