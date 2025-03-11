@@ -63,10 +63,12 @@ The dataset used to train the model can be found here:
 ```
 https://www.kaggle.com/datasets/jovanmoolah1/asl-pose-various-backgrounds
 ```
+The model obtained validation accuries: 99% Recall, 99% Precision, 99% mAP50, 91% mAP50-95 Box and 95% mAP50-95 Pose 
+
 # Testing
 The application was run on an RTX 4060 GPU and a 30 FPS webcam. Capture speed averaged 30 to 45 gestures a minute. 
 
-The model works well with white backgrounds up to 1.5m and cluttered background up to 0.5m. Model has significantly greater accuracy with light, plain colored backgrounds.
+The model works well with white backgrounds up to 1.5m and cluttered background up to 0.5m with confidence greater than 0.6. Model has significantly greater accuracy with light, plain colored backgrounds.
 
 Online datasets can be evaluated with the model by changing stream source to image and video, and typing directory location in text box next to stream source. 
 
