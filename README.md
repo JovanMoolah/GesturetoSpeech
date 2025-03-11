@@ -4,6 +4,9 @@ Compiled Version for application: https://drive.google.com/file/d/1LpFbGddI9TXjD
 Download, unzip and run exe. 
 Program may work with only NVIDIA GPUs.
 
+# Installtion
+
+
 # Gestures
 This application automatically convert gestures in ASL fingerspelling to text and then voice. It includes all numbers and letters. Gestures for 'j' and 'z' only include one position which is 'j4' for j and 'z1' or 'z2' for z.
 
@@ -34,7 +37,6 @@ Used synchronize button after manually editing text in the text box. It prevent 
 The original dataset for the model can be found here: https://universe.roboflow.com/asl-pose/american-sign-language-pose-dataset/dataset/27
 
 The dataset used to train the model can be found here: https://www.kaggle.com/datasets/jovanmoolah1/asl-pose-various-backgrounds
-
 
 # Testing
 The application was run on an RTX 4060 GPU and a 30 FPS webcam. Capture speed averaged 30 to 45 gestures a minute. 
