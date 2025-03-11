@@ -52,9 +52,11 @@ For example, English to Spanish would be: from_code="en", to_code="es"
 # User-Interface
 ![image](https://github.com/user-attachments/assets/2508ddc6-059e-4678-bf4c-a2b78a654e41)
 
-Stream can be start and stop at anything time. After changing stream source, stop and restart stream. 
+Stream can be started and stopped at anything time. After changing stream source, stop and restart stream. 
 
-Gesture glosses that is captured to text box can be renamed by editing the textbox next to combobox mapping.
+Rate, pitch and volume controls the rate of speech, the pitch of the voice and volume of the voice.
+
+Gesture glosses that are captured to text box can be renamed by editing the textbox next to combobox mapping.
 
 When translate button is on, text is voiced in selected translate voice. When off text is voiced in native language. 
 
