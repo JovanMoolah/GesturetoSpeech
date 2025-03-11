@@ -18,6 +18,10 @@ Install libraries:
 ```
 pip install -r Requirements.txt
 ```
+If CPU is used, change requirements for torch to:
+```
+torch torchvision torchaudio
+```
 
 # Gestures
 This application automatically convert gestures in ASL fingerspelling to text and then voice. It includes all numbers and letters. Gestures for 'j' and 'z' only include one position which is 'j4' for j and 'z1' or 'z2' for z.
