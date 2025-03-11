@@ -1,0 +1,14 @@
+ultralytics
+numpy
+matplotlib
+opencv-python
+supervision
+roboflow
+torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+argostranslate
+streamlink
+PySide6
+pyperclip
+scikit-learn
+tqdm
+albumentations
