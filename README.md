@@ -11,8 +11,8 @@ Clone repository and create virtual environment:
 ```
 git clone https://github.com/JovanMoolah/GesturetoSpeech.git
 cd GesturetoSpeech
-virtualenv env
-source env/bin/activate
+python -m venv GtS
+source GtS/bin/activate
 ```
 Install libraries:
 ```
