@@ -23,3 +23,13 @@ Tutorial: https://support.microsoft.com/en-us/windows/language-packs-for-windows
 For Translation to work, please uncomment Argos translate package download and download desired model.
 Models can be found here: https://github.com/argosopentech/argos-translate/blob/master/argostranslate/languages.csv
 For example, English to Spanish would be: from_code="en", to_code="es" 
+
+# Testing
+The application was ran on RTX 4060 GPU and a 30 FPS webcam. Capture speed averaged 45 gestures a minute. 
+
+The model works well with white backgrounds up to 1.5m and cluttered background up to 0.5m. Model has significantly greater accuracy with light, plain colored backgrounds.
+
+Online datasets can be evaluated with model by changing stream source to image and video, and typing directory location in text box next to stream source. 
+
+A livestream source was added. Just type url that is livestreaming such as youtube or twitch. Note, there is too much latency for livestreaming to work effectively.  
+
