@@ -7,7 +7,7 @@ Additional gestures: 'delete', 'enter' and 'space' are used to delete text, star
 
 Gestures glosses can also be cutomized to user-defined text
 
-All gestures are seen in diagram below
+All gestures are seen in diagram below.
 
 ![image](https://github.com/user-attachments/assets/f3baf81a-9e55-4e1f-953c-19933cb3072f)
 
