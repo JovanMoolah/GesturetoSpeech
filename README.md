@@ -68,7 +68,7 @@ Buttons for start, stop, pause and resume control the speech duration. It voices
 
 Clear deletes all text in both native and translated text boxes.
 
-Synchronize button synchronizes text box data with Gloss Record. It prevent an error in which old text is pasted back into box when manually inserting/deleting. 
+Synchronize button synchronizes text box data with Gloss Record. It prevents an error in which old text is pasted back into box when manually inserting/deleting. 
 
 # Dataset
 The original dataset for the model can be found here: 
