@@ -1,16 +1,23 @@
 # Compiled Version
-Compiled Version for application: https://drive.google.com/file/d/1LpFbGddI9TXjDm9ZP2hl9KdEWzR-r1bO/view?usp=drive_link
-
+Compiled Version for application:
+```
+https://drive.google.com/file/d/1LpFbGddI9TXjDm9ZP2hl9KdEWzR-r1bO/view?usp=drive_link
+```
 Download, unzip and run exe. 
 Program may work with only NVIDIA GPUs.
 
 # Installtion
+Clone repository and create virtual environment:
+```
+git clone https://github.com/JovanMoolah/GesturetoSpeech.git
+cd GesturetoSpeech
+virtualenv env
+source env/bin/activate
+```
 Install libraries:
 ```
 pip install -r Requirements.txt
 ```
-git clone https://github.com/argosopentech/argos-translate.git
-cd argos-translate
 
 # Gestures
 This application automatically convert gestures in ASL fingerspelling to text and then voice. It includes all numbers and letters. Gestures for 'j' and 'z' only include one position which is 'j4' for j and 'z1' or 'z2' for z.
@@ -39,10 +46,14 @@ For example, English to Spanish would be: from_code="en", to_code="es"
 Used synchronize button after manually editing text in the text box. It prevent an error in which old text is pasted back into box when manually deleting. 
 
 # Dataset
-The original dataset for the model can be found here: https://universe.roboflow.com/asl-pose/american-sign-language-pose-dataset/dataset/27
-
-The dataset used to train the model can be found here: https://www.kaggle.com/datasets/jovanmoolah1/asl-pose-various-backgrounds
-
+The original dataset for the model can be found here: 
+```
+https://universe.roboflow.com/asl-pose/american-sign-language-pose-dataset/dataset/27
+```
+The dataset used to train the model can be found here: 
+```
+https://www.kaggle.com/datasets/jovanmoolah1/asl-pose-various-backgrounds
+```
 # Testing
 The application was run on an RTX 4060 GPU and a 30 FPS webcam. Capture speed averaged 30 to 45 gestures a minute. 
 
