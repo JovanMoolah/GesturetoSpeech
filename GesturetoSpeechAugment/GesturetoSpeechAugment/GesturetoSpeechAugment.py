@@ -64,7 +64,7 @@ outfold = r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\kj
 
 #housefolder = r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\House_Room_Dataset'
 
-housefolder= r'T:\Current Data\Combined_Dataset_latest'
+#housefolder= r'T:\Current Data\Combined_Dataset_latest'
 
 #colourfolder = r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\Colour Dataset'
 
@@ -97,17 +97,17 @@ LISTCOL = []
 #resize_img()
 
 
-for room in os.listdir (housefolder):                              #Append images to List in numpy format
-        roomfolder = os.path.join(housefolder, room)
-        for roomtype in os.listdir(roomfolder):
-            if not roomtype.endswith(".jpg"):
-                continue
-            image_path = os.path.join(roomfolder, roomtype)
- 
-            Ref = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
-            LISTROOM.append(Ref)
+#for room in os.listdir (housefolder):                              #Append images to List in numpy format
+ #       roomfolder = os.path.join(housefolder, room)
+ #       for roomtype in os.listdir(roomfolder):
+  #          if not roomtype.endswith(".jpg"):
+  #              continue
+   #         image_path = os.path.join(roomfolder, roomtype)
+ #
+    #        Ref = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
+    #        LISTROOM.append(Ref)
 
-            #print (Ref)
+    #        #print (Ref)
 
 #for room in os.listdir (colourfolder):                          #Appends images to List in numpy format
    #     roomfolder = os.path.join(colourfolder, room)
@@ -129,7 +129,6 @@ transform = A.Compose([
     A.GaussNoise(var_limit= (5.0, 15.0), p=0.25),
     A.RandomBrightnessContrast(brightness_limit=(-0.1, 0.1), contrast_limit =(-0.1, 0.1), p=0.25),
     A.HueSaturationValue (hue_shift_limit = (-15, 15), sat_shift_limit = (-15, 15), val_shift_limit = (-10, 10),  p= 0.25),
-    A.HistogramMatching (reference_images=LISTROOM, read_fn=lambda x: x, p=0.5, blend_ratio=(0.1, 0.5))  
      
 
     #A.TemplateTransform(templates=LISTROOM, img_weight=0.5, template_weight= 0.75, p=1)        #The above transforms should be commented when using this transform
