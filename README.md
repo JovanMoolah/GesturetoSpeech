@@ -6,7 +6,7 @@ https://drive.google.com/file/d/1LpFbGddI9TXjDm9ZP2hl9KdEWzR-r1bO/view?usp=drive
 Download, unzip and run exe. 
 Program may work with only NVIDIA GPUs.
 
-# Installtion
+# Python Installtion
 Clone repository and create virtual environment:
 ```
 git clone https://github.com/JovanMoolah/GesturetoSpeech.git
