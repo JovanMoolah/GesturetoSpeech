@@ -28,8 +28,7 @@ For example, English to Spanish would be: from_code="en", to_code="es"
 # User-Interface
 ![image](https://github.com/user-attachments/assets/2508ddc6-059e-4678-bf4c-a2b78a654e41)
 
-
-
+Used synchronize button after manually editing text in the text box. It prevent an error in which old text is pasted back into box when manually deleting. 
 
 # Dataset
 The original dataset for the model can be found here: https://universe.roboflow.com/asl-pose/american-sign-language-pose-dataset/dataset/27
