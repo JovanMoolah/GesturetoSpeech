@@ -25,6 +25,12 @@ For Translation to work, please uncomment Argos translate package and download d
 Models can be found here: https://github.com/argosopentech/argos-translate/blob/master/argostranslate/languages.csv
 For example, English to Spanish would be: from_code="en", to_code="es" 
 
+# User-Interface
+![image](https://github.com/user-attachments/assets/2508ddc6-059e-4678-bf4c-a2b78a654e41)
+
+
+
+
 # Dataset
 The original dataset for the model can be found here: https://universe.roboflow.com/asl-pose/american-sign-language-pose-dataset/dataset/27
 
