@@ -37,7 +37,7 @@ The dataset used to train the model can be found here: https://www.kaggle.com/da
 
 
 # Testing
-The application was run on RTX 4060 GPU and a 30 FPS webcam. Capture speed averaged 30 to 45 gestures a minute. 
+The application was run on an RTX 4060 GPU and a 30 FPS webcam. Capture speed averaged 30 to 45 gestures a minute. 
 
 The model works well with white backgrounds up to 1.5m and cluttered background up to 0.5m. Model has significantly greater accuracy with light, plain colored backgrounds.
 
