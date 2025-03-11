@@ -34,10 +34,15 @@ All gestures are seen in diagram below.
 
 # Speech
 For speech to work, please download languages and voices in Windows Languages settings. 
-Tutorial: https://support.microsoft.com/en-us/windows/language-packs-for-windows-a5094319-a92d-18de-5b53-1cfc697cfca8
-
+Tutorial: 
+```
+https://support.microsoft.com/en-us/windows/language-packs-for-windows-a5094319-a92d-18de-5b53-1cfc697cfca8
+```
 For Translation to work, please uncomment Argos translate package and download desired model.
-Models can be found here: https://github.com/argosopentech/argos-translate/blob/master/argostranslate/languages.csv
+Models can be found here:
+```
+https://github.com/argosopentech/argos-translate/blob/master/argostranslate/languages.csv
+```
 For example, English to Spanish would be: from_code="en", to_code="es" 
 
 # User-Interface
