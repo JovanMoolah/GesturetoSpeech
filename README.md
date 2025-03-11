@@ -52,11 +52,15 @@ For example, English to Spanish would be: from_code="en", to_code="es"
 # User-Interface
 ![image](https://github.com/user-attachments/assets/2508ddc6-059e-4678-bf4c-a2b78a654e41)
 
+Stream can be start and stop at anything time. After changing stream source, stop and restart stream. 
+
 Gesture glosses that is captured to text box can be renamed by editing the textbox next to combobox mapping.
 
 When translate button is on, text is voiced in selected translate voice. When off text is voiced in native language. 
 
-Concurrent voices text in real-time after every whitespace. 
+Concurrent voices text in real-time after every whitespace. Only works for native language.
+
+Clear deletes all text in both native and translated text boxes.
 
 Synchronize button synchronizes text box data with Gloss Record. It prevent an error in which old text is pasted back into box when manually inserting/deleting. 
 
