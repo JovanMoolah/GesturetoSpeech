@@ -11,11 +11,6 @@ All gestures are seen in diagram below.
 
 ![image](https://github.com/user-attachments/assets/f3baf81a-9e55-4e1f-953c-19933cb3072f)
 
-# Dataset
-The original dataset for the model can be found here: https://universe.roboflow.com/asl-pose/american-sign-language-pose-dataset/dataset/27
-
-The dataset used to train the model can be found here: https://www.kaggle.com/datasets/jovanmoolah1/asl-pose-various-backgrounds
-
 # Speech
 For speech to work, please download languages and voices in Windows Languages settings. 
 Tutorial: https://support.microsoft.com/en-us/windows/language-packs-for-windows-a5094319-a92d-18de-5b53-1cfc697cfca8
@@ -23,6 +18,12 @@ Tutorial: https://support.microsoft.com/en-us/windows/language-packs-for-windows
 For Translation to work, please uncomment Argos translate package and download desired model.
 Models can be found here: https://github.com/argosopentech/argos-translate/blob/master/argostranslate/languages.csv
 For example, English to Spanish would be: from_code="en", to_code="es" 
+
+# Dataset
+The original dataset for the model can be found here: https://universe.roboflow.com/asl-pose/american-sign-language-pose-dataset/dataset/27
+
+The dataset used to train the model can be found here: https://www.kaggle.com/datasets/jovanmoolah1/asl-pose-various-backgrounds
+
 
 # Testing
 The application was run on RTX 4060 GPU and a 30 FPS webcam. Capture speed averaged 30 to 45 gestures a minute. 
