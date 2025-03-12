@@ -1,4 +1,3 @@
-
 from re import S
 import ultralytics
 import supervision as sv
