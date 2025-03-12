@@ -1,56 +1,30 @@
 
 from re import S
-
 import ultralytics
-
 import supervision as sv
-
 import cv2
-
 import random
-
 from ultralytics import YOLO
-
 from roboflow import Roboflow
-
 from matplotlib import pyplot as plt
-
 import numpy as np
-
 import torch
-
 import os
-
 from itertools import groupby
-
 import argostranslate.package
-
 import argostranslate.translate
-
 import streamlink
-
 import csv
-
 import os
-
 import sys
-
 from PySide6.QtCore import Qt, QThread, Signal, Slot, QLocale, QSignalBlocker
-
 from PySide6.QtGui import QAction, QImage, QKeySequence, QPixmap, QTextCursor
-
 from PySide6.QtWidgets import (QApplication, QComboBox, QGroupBox,
                                QHBoxLayout, QLabel, QMainWindow, QPushButton,
                                QSizePolicy, QVBoxLayout, QWidget)
-
 from PySide6.QtTextToSpeech import QTextToSpeech, QVoice
-
-
 from UIForHand import Ui_MainWindow            #This file contains the configuration for the UI.
-
 import pyperclip
-
-
 
 
 #Download code for languages. Use https://github.com/argosopentech/argos-translate/blob/master/argostranslate/languages.csv to find codes 
@@ -76,14 +50,12 @@ print(Translate)
 
 '''
 
-
 class Detection (QThread):                                  #Thread used for streaming 
     
     frameupdate = Signal (QImage)                           #Initialize variables
     listsend = Signal (str) 
     temp = 0
-    source_folder = ''
-    
+    source_folder = '' 
     model = YOLO('runs/pose/train/weights/best.pt')         #Load the trained model
 
     def __init__(self, parent=None):                        #Intialize default variables to start stram
@@ -91,12 +63,10 @@ class Detection (QThread):                                  #Thread used for str
         self.status=True
         self.source = "0"
         self.cap = cv2.VideoCapture(self.source)
-        
-        
+               
     def end (self):
         self.status = False                                 #End stream
-        self.cap.release()
-        
+        self.cap.release()      
 
     def stream_to_url(self, url, quality='best'):           #Define url and quality for livestreaming
         streams = streamlink.streams(url)
@@ -104,161 +74,115 @@ class Detection (QThread):                                  #Thread used for str
             return streams[quality].to_url()
         else:
             raise ValueError("No steams were available")
-
-     
+  
     def Webcam (self):                                     #Use webcam as streaming source
         self.status = True
         self.cap = cv2.VideoCapture(0)
         
-   
     def Livestream (self):                                 #Use online livestreame as streaming source
         self.status = True
         stream_url = self.stream_to_url(self.source_folder, 'best')
         self.cap = cv2.VideoCapture(stream_url)
         
-
     #Reference:https://doc.qt.io/qtforpython-6/examples/example_external_opencv.html#opencv-face-detection-example
-
-    def StreamPredict(self):                              #Prediciton function for webcam or livestream
-            
+    def StreamPredict(self):                              #Prediciton function for webcam or livestream      
         while self.status:                                #Run streaming indefinetly                         
-
             ret, frame = self.cap.read()                  #Read frames in stream
-
             if ret is False:                              #Stop streaming if status is false
                break
-    
+              
             results = self.model.predict(frame, conf = 0.6, show=False)        #Run inference on webcam or livestream at 0.6 IoU
-            names = self.model.names
-            
+            names = self.model.names            
             annotated_frame = results[0].plot()             
-            color_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)      #Read the image in RGB 
-      
+            color_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)      #Read the image in RGB       
             h, w, ch = color_frame.shape            
             img = QImage(color_frame.data, w, h, ch * w, QImage.Format_RGB888)  #Convert image in QImage format for UI display
-            img = img.scaled(640, 480, Qt.KeepAspectRatio)              #Scale frame to Screen Size
-            
+            img = img.scaled(640, 480, Qt.KeepAspectRatio)              #Scale frame to Screen Size           
             
             for r in results:  
-                for box in r.boxes.cls:                   #Load prediciton results
-                    
+                for box in r.boxes.cls:                   #Load prediciton results                 
                     c = (names[int(box)]) 
                     if (c == "space"):                    #Changes'space' classname to ' ' 
                         c = " "     
-                    self.listsend.emit(str (c))           #Send class prediction to gesture capture for processing
-                    
+                    self.listsend.emit(str (c))           #Send class prediction to gesture capture for processing             
             self.frameupdate.emit(img)                    #Send frame image for processing
         #self.cap.release()
-         
-           
+                  
     def Video(self):                                      #Use video as stream source
-        
-            self.status = True
-            
-            video_folder= r''.join(self.source_folder)    
-            
-            for video_name in os.listdir(video_folder):    #Loads videos from folder
-                
+            self.status = True    
+            video_folder= r''.join(self.source_folder)             
+            for video_name in os.listdir(video_folder):    #Loads videos from folder             
                 if not video_name.endswith((".mpg",".mpeg4"))  :
                     continue
-                video_path = os.path.join(video_folder, video_name)    
-                
-                video = cv2.VideoCapture(video_path)      #Run videos 
-                
-                while self.status:                        #Run videos indefinetly
-                    
+                video_path = os.path.join(video_folder, video_name)                   
+                video = cv2.VideoCapture(video_path)      #Run videos          
+              
+                while self.status:                        #Run videos indefinetly                    
                     ret, frame = video.read()             #Stop current video is status is false
                     if not ret:
-                         break   
-                    
-                    cv2.waitKey(1)                        #Speed to read video frames
-                    
+                         break                      
+                    cv2.waitKey(1)                        #Speed to read video frames                   
                     w = int(frame.shape[1] * 1)            
                     h = int(frame.shape[0] * 1)
-                    resized = cv2.resize(frame, (w,h))   #Resize video frame to preference
-                    
+                    resized = cv2.resize(frame, (w,h))   #Resize video frame to preference                    
                     results = self.model.predict(resized, conf = 0.6, show=False)       #Run inference on video at 0.6 IoU
-                    names = self.model.names
-                    
+                    names = self.model.names                    
                     annotated_frame = results[0].plot()
-                    color_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)      #Read the image in RGB 
-                    
+                    color_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)      #Read the image in RGB                   
                     h, w, ch = color_frame.shape
                     img = QImage(color_frame.data, w, h, ch * w, QImage.Format_RGB888)  #Convert image in QImage format for UI display
-                    img = img.scaled(640, 480, Qt.KeepAspectRatio)                      #Scale video frame to screen size
-                    
+                    img = img.scaled(640, 480, Qt.KeepAspectRatio)                      #Scale video frame to screen size                    
                     self.frameupdate.emit(img)            #Send frame image for processing 
                 video.release()
-                
-                
-    def Image(self):                                     #Use image as stream source
-        
-            self.status = True
-            
-            image_folder= r''.join(self.source_folder)   
-            
+                                
+    def Image(self):                                     #Use image as stream source  
+            self.status = True            
+            image_folder= r''.join(self.source_folder)               
             for image_name in os.listdir(image_folder):   #Load Images from folder
-
                 if not image_name.endswith((".png",".jpg",".JPG"))  :
                     continue
-                image_path = os.path.join(image_folder, image_name)  
-                
+                image_path = os.path.join(image_folder, image_name)                 
                 if self.status == False:                  #Stop loading images from folder if status is false
                     break
-
                 frame =cv2.imread(image_path)             #Read an image
-
                 w = int(frame.shape[1] * 1)
                 h = int(frame.shape[0] * 1)
-                resized = cv2.resize(frame, (w,h))        #Resize Image to preference
-                
+                resized = cv2.resize(frame, (w,h))        #Resize Image to preference                
                 results = self.model.predict(resized, conf = 0.6, show=False)        #Run inference on image at 0.6 IoU
-                names = self.model.names
-                
+                names = self.model.names                
                 annotated_frame = results[0].plot()
-                color_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)
-                
+                color_frame = cv2.cvtColor(annotated_frame, cv2.COLOR_BGR2RGB)                
                 h, w, ch = color_frame.shape
                 img = QImage(color_frame.data, w, h, ch * w, QImage.Format_RGB888)
                 #img = img.scaled(640, 480, Qt.KeepAspectRatio)                      #Scale image to screen size
 
                 for r in results:
-                    for box in r.boxes.cls:
-               
+                    for box in r.boxes.cls:               
                         c = (names[int(box)]) 
                         if (c == "space"):
-                            c = " "  
-                            
+                            c = " "                             
                         with open ('Pred.csv', 'a', newline="") as f:  #Predicted classes are save in a file. 
                             writer= csv.writer (f)                     #Used to evaluate image datasets
                             writer.writerows (c)
-                        #self.listsend.emit(str (c))
-        
-                self.frameupdate.emit(img)              #Send frame image for processing 
-                
-                cv2.waitKey(1)                          #Speed to read images              
-                
+                        #self.listsend.emit(str (c))     
+                self.frameupdate.emit(img)              #Send frame image for processing                 
+                cv2.waitKey(1)                          #Speed to read images                             
 
-    def run(self):                                      #Run streaming sources based on UI selection
-        
+    def run(self):                                      #Run streaming sources based on UI selection        
         if self.temp == 0:
            self.Webcam()   
            self.StreamPredict()
-
         elif self.temp ==1:
             self.Video()
-
         elif self.temp ==2:
-            self.Image()
-            
+            self.Image()           
         elif self.temp ==3:     
            self.Livestream()
            self.StreamPredict()
 
 
 
-class Window(QMainWindow):                             #Main Thread used for all UI functions 
-    
+class Window(QMainWindow):                             #Main Thread used for all UI functions     
     textappendmain = Signal (str)                      #Initialsze all strings and List
     ValueM = ''
     ValueM2 = ''
@@ -271,116 +195,76 @@ class Window(QMainWindow):                             #Main Thread used for all
     RECORD = []
     gest = []
     Current = ''
-    
- 
+     
     def __init__(self):
-        super().__init__()
-        
+        super().__init__()        
         self.ui = Ui_MainWindow()                       #Load Configurations from UI Python file
-        self.ui.setupUi(self)
-                                                       
+        self.ui.setupUi(self)          
+      
         #UI Functions__________________________________ #Define variables for UI functions
-        self.det = Detection (self)
-        
-        self.speech = QTextToSpeech (self)
-        
-        self.speechTrans = QTextToSpeech (self)
-        
-        self.input_voices = []
-        
-        self.output_voices = []
-        
+        self.det = Detection (self)     
+        self.speech = QTextToSpeech (self)        
+        self.speechTrans = QTextToSpeech (self)        
+        self.input_voices = []        
+        self.output_voices = []        
         self.InitialiseLanguages ()
- 
-        self.InitialiseLanguagesTrans ()
-        
-        self.IntialiaseGesture()
-        
-        self.IntialiaseStream()
-        
+        self.InitialiseLanguagesTrans ()       
+        self.IntialiaseGesture()       
+        self.IntialiaseStream()       
         self.ui.inputted_text.setFocus()
         self.ui.inputted_text.moveCursor(QTextCursor.End)
-
-        self.ui.Translate.setCheckable(True)
-        
-        self.ui.concurrentbut.setCheckable (True)
-        
-        #___________________________________________________________________________________
-        
+        self.ui.Translate.setCheckable(True)        
+        self.ui.concurrentbut.setCheckable (True)       
+                
         #Connections____________________________________ Define signal connection for slot functions
-        self.det.frameupdate.connect(self.setImage)
-        
+        self.det.frameupdate.connect(self.setImage)        
         self.textappendmain.connect (self.appendText)
- 
         self.ui.start.clicked.connect (self.start)
-        self.ui.stop.clicked.connect (self.end)
-        
+        self.ui.stop.clicked.connect (self.end)       
         self.ui.pitch.valueChanged.connect(self.set_Pitch)
         self.ui.rate.valueChanged.connect(self.set_Rate)
-        self.ui.volume.valueChanged.connect(self.set_Volume)
-        
+        self.ui.volume.valueChanged.connect(self.set_Volume)       
         self.ui.input_voice.currentIndexChanged.connect(self.select_Voice)
-        self.ui.input_language.currentIndexChanged.connect(self.select_Language)
-        
+        self.ui.input_language.currentIndexChanged.connect(self.select_Language)      
         self.ui.output_voice.currentIndexChanged.connect(self.select_VoiceTrans)
-        self.ui.output_language.currentIndexChanged.connect(self.select_LanguageTrans)
-        
+        self.ui.output_language.currentIndexChanged.connect(self.select_LanguageTrans)      
         self.speech.localeChanged.connect(self.locale_changed)
-        self.speechTrans.localeChanged.connect(self.locale_changedTrans)
-        
+        self.speechTrans.localeChanged.connect(self.locale_changedTrans)    
         self.ui.speak_start.clicked.connect(self.startSpeak)
         self.ui.speak_stop.clicked.connect(self.stopSpeak)
         self.ui.pause.clicked.connect(self.pauseSpeak)
-        self.ui.resume.clicked.connect(self.resumeSpeak)
-                   
-        self.ui.clear.clicked.connect(self.clearText)
-        
-        self.ui.Translate.clicked.connect(self.Toggle)
-        
-        self.ui.concurrentbut.clicked.connect (self.TogCon)
-        
-        self.det.listsend.connect (self.processlist)
-        
-        self.ui.Gesture.currentIndexChanged.connect (self.mapNames)
-        
-        self.ui.Mapping.textEdited.connect (self.changeMapping)
-        
-        self.ui.Stream_Type.currentIndexChanged.connect (self.running)
-        
-        self.ui.Synchronize.clicked.connect(self.Sync)
-        
-        #_________________________________________________________________________________
-
-  
-
+        self.ui.resume.clicked.connect(self.resumeSpeak)               
+        self.ui.clear.clicked.connect(self.clearText)   
+        self.ui.Translate.clicked.connect(self.Toggle)        
+        self.ui.concurrentbut.clicked.connect (self.TogCon)       
+        self.det.listsend.connect (self.processlist)        
+        self.ui.Gesture.currentIndexChanged.connect (self.mapNames)        
+        self.ui.Mapping.textEdited.connect (self.changeMapping)        
+        self.ui.Stream_Type.currentIndexChanged.connect (self.running)        
+        self.ui.Synchronize.clicked.connect(self.Sync)        
+       
     def IntialiaseStream (self):                         # Initailze stream source        
         Stm = []
         Stm = ('Webcam', 'Video', 'Image','Livestream')
         for s in Stm:
             self.ui.Stream_Type.addItem (s)
 
-
     @Slot (int)                                          #Select current stream source
     def running (self):   
         if self.ui.Stream_Type.currentIndex() == 0:
            self.det.temp = 0
-           #print ('say webcam')
-    
+           #print ('say webcam')    
         elif self.ui.Stream_Type.currentIndex() == 1:     
             self.det.temp = 1
-            #print (self.ui.Stream_Type.currentIndex())
-            
+            #print (self.ui.Stream_Type.currentIndex())            
         elif self.ui.Stream_Type.currentIndex() == 2:  
-            self.det.temp = 2
-        
+            self.det.temp = 2       
         elif self.ui.Stream_Type.currentIndex() == 3:
             self.det.temp = 3
-
 
     @Slot (str)                                        #MIGHT BE DEAD          
     def TestValue (self, testing):
         self.ui.translated_text.appendPlainText(testing)
-
    
     def Toggle(self):                                  #Toggle on/off translate button
         if self.ui.Translate.isChecked():
@@ -390,8 +274,7 @@ class Window(QMainWindow):                             #Main Thread used for all
             
         self.ui.inputted_text.setFocus()               #Automatically sets the cursor postion to visible at the end of input text after executing a function 
         self.ui.inputted_text.moveCursor(QTextCursor.End)     
-        
-    
+            
     def TogCon (self):                                #Toggle on/off concurrent button
         if self.ui.concurrentbut.isChecked():
             self.ui.concurrentbut.setText ("On")
@@ -401,7 +284,6 @@ class Window(QMainWindow):                             #Main Thread used for all
         self.ui.inputted_text.setFocus()
         self.ui.inputted_text.moveCursor(QTextCursor.End)        
      
-
     def IntialiaseGesture (self):                    #Initialisze gesture class names from loaded model 
         #print (self.det.model.names)    
         #self.gest.append(self.det.model.names)
@@ -417,7 +299,6 @@ class Window(QMainWindow):                             #Main Thread used for all
         for g in self.gest: 
             self.ui.Gesture.addItem (g)               #Add class names to combo box
             
-
     @Slot (int)                                       #Initialze gesture mapping
     def mapNames (self, map):
         self.ui.Mapping.setText (self.gest [map])
@@ -521,8 +402,7 @@ class Window(QMainWindow):                             #Main Thread used for all
         self.gest [self.ui.Gesture.currentIndex()] = text
         self.ui.inputted_text.setFocus()
         self.ui.inputted_text.moveCursor(QTextCursor.End) 
-        
- 
+         
     #Reference: https://doc.qt.io/qtforpython-6/examples/example_speech_hello_speak.html
     def InitialiseLanguages (self):                  #Initialise locale languages for input combobox
         current = self.speech.locale()
@@ -537,7 +417,6 @@ class Window(QMainWindow):                             #Main Thread used for all
                     current = locale     
         self.locale_changed(current)  
         
-
     def InitialiseLanguagesTrans (self):              #Function to initialise locale languages for translated combobox
         current = self.speechTrans.locale()
         with QSignalBlocker(self.ui.output_language):
@@ -556,39 +435,32 @@ class Window(QMainWindow):                             #Main Thread used for all
         self.speech.setPitch (pitch / 10)
         self.speechTrans.setPitch (pitch / 10)
         
-
     @Slot(int)                                       #Set rate parameters
     def set_Rate (self, rate):
         self.speech.setRate (rate / 10)
         self.speechTrans.setRate (rate / 10)
         
-
     @Slot(int)                                       #Set volume parameters  
     def set_Volume(self, volume):
         self.speech.setVolume (volume / 20)  
         self.speechTrans.setVolume (volume / 20) 
         
-
     @Slot (int)                                      #Select input language locale
     def select_Language (self, lng):
         self.speech.setLocale(self.ui.input_language.itemData(lng))
     
-
     @Slot (int)                                      #Select translated language locale
     def select_LanguageTrans (self, lng):
         self.speechTrans.setLocale(self.ui.output_language.itemData(lng))    
      
-
     @Slot (int)                                      #Select input language voice
     def select_Voice (self, vc):
         self.speech.setVoice(self.input_voices[vc]) 
     
-
     @Slot (int)                                      #Select translated language voice
     def select_VoiceTrans (self, vc):
         self.speechTrans.setVoice(self.output_voices[vc]) 
-        
-        
+              
     #Reference: https://doc.qt.io/qtforpython-6/examples/example_speech_hello_speak.html 
     @Slot(QLocale)                                    #Initialize voices for input language combobox
     def locale_changed(self, locale):
@@ -605,7 +477,6 @@ class Window(QMainWindow):                             #Main Thread used for all
                 if v.name() == current_voice.name():
                     self.ui.input_voice.setCurrentIndex(self.ui.input_voice.count() - 1)
                     
-
     @Slot(QLocale)                                    #Initialize voices for translated language combobox
     def locale_changedTrans(self, locale):
         self.ui.output_language.setCurrentIndex(self.ui.output_language.findData(locale))
@@ -621,11 +492,9 @@ class Window(QMainWindow):                             #Main Thread used for all
                 if v.name() == current_voice.name():
                     self.ui.output_voice.setCurrentIndex(self.ui.output_voice.count() - 1)  #For more voices, download from Windows language settings and reload application
                     
-
     @Slot ()                                           #Start speaking
     def startSpeak (self):
-        if self.ui.Translate.isChecked():              #Checks if translate button is on
-                                                                   
+        if self.ui.Translate.isChecked():              #Checks if translate button is on                                                                 
             current = self.speech.locale()             #Supported languages for input language. 
             lang = QLocale.languageToString(current.language())
             if lang == 'English':
@@ -639,7 +508,7 @@ class Window(QMainWindow):                             #Main Thread used for all
             #elif lang == 'Japanese':                  #Tried Japanese but characters have to be Roman
               #  lang = 'ja'
                 print (lang)  
-
+              
             currentTrans = self.speechTrans.locale()   #Supported languages for translated language.    
             langTrans = QLocale.languageToString(currentTrans.language())
             if langTrans == 'English':
@@ -656,14 +525,12 @@ class Window(QMainWindow):                             #Main Thread used for all
     
             Translate = argostranslate.translate.translate(self.ui.inputted_text.toPlainText(), lang, langTrans)
             self.ui.translated_text.setPlainText(Translate)
-            self.speechTrans.say (self.ui.translated_text.toPlainText())   #Speak function pronounces translated text
-            
+            self.speechTrans.say (self.ui.translated_text.toPlainText())   #Speak function pronounces translated text            
         else:  
             self.speech.say (self.ui.inputted_text.toPlainText())          #Speak function pronounces input text
     
         self.ui.inputted_text.setFocus()                                   
         self.ui.inputted_text.moveCursor(QTextCursor.End)             
-
             
     @Slot()                                            #Stop speaking
     def stopSpeak (self):
@@ -672,12 +539,10 @@ class Window(QMainWindow):                             #Main Thread used for all
             self.ValueM=''
         else:
             self.speech.stop()
-            self.ValueM = ''
-            
+            self.ValueM = ''            
         self.ui.inputted_text.setFocus()
         self.ui.inputted_text.moveCursor(QTextCursor.End) 
         
-
     @Slot()                                            #Pause speak
     def pauseSpeak (self):
         if self.ui.Translate.isChecked():
@@ -685,15 +550,13 @@ class Window(QMainWindow):                             #Main Thread used for all
         else:
             self.speech.pause()
             
-
     @Slot()                                           #Resume speak
     def resumeSpeak (self):
         if self.ui.Translate.isChecked():
             self.speechTrans.resume()
         else:
             self.speech.resume()
-
-    
+   
     @Slot()                                           #Clear text in input and translated textbox
     def clearText (self):
         self.ui.inputted_text.clear()
@@ -701,8 +564,7 @@ class Window(QMainWindow):                             #Main Thread used for all
         self.RECORD.clear()
         self.ui.inputted_text.setFocus()
         self.ui.inputted_text.moveCursor(QTextCursor.End) 
-        
-        
+                
     @Slot ()                                          #Synchronize Record if textbox is manually edited
     def Sync(self):
         self.ui.inputted_text.selectAll()
@@ -711,11 +573,9 @@ class Window(QMainWindow):                             #Main Thread used for all
         self.RECORD =  (list(pyperclip.paste()))
         self.ui.inputted_text.setFocus()
         self.ui.inputted_text.moveCursor(QTextCursor.End)
-
-    
+   
     @Slot (str)                                       #Appends text from RECORD to textbox
-    def appendText(self,text):
-         
+    def appendText(self,text):        
            self.ActualMap (text)                             
            
            if self.Current == 'o' and self.RECORD [-1] in ['0','1','2','3','4','5','6','7','8','9']:
@@ -746,46 +606,37 @@ class Window(QMainWindow):                             #Main Thread used for all
                self.ui.inputted_text.insertPlainText (self.RECORD[-1])  
                self.FrameRecord.clear()
                self.FrameCount.clear()
-               
-           
+                         
            #self.RECORD.append (text)                                    #Commented code that test append function without gesture map function
            #self.ui.inputted_text.insertPlainText (self.RECORD[-1])  
            #self.FrameRecord.clear()
            #self.FrameCount.clear()
-           
-  
+             
            if self.ui.concurrentbut.isChecked():        #If concurrent is on, speak function prounces each word in real-time
                self.ui.translated_text.insertPlainText (self.RECORD[-1])
                if self.Current.endswith(' '):  
                     self.speech.say (self.ui.translated_text.toPlainText())   
                     self.ui.translated_text.clear()
-                            
-          
+                                      
     @Slot(str)                                           #Insert text to input textbox
     def setText(self, text):
         self.ui.inputted_text.insertPlainText (text)
-        
- 
+         
     @Slot(QImage)                                       #Display image using emitted img from stream source
     def setImage(self, image):
         self.ui.Display.setPixmap(QPixmap.fromImage(image)) 
-
-    
+  
     @Slot (str)   
     def processlist(self, valuesent):                          #function to prcosses gestures detected from the stream
-        self.FrameRecord.append(valuesent)                     #string class name of detected gesture    
-        
+        self.FrameRecord.append(valuesent)                     #string class name of detected gesture         
         for nme, cnt in groupby(self.FrameRecord):             # counts reoccuring class names
                 self.FrameCount.append((nme, len(list(cnt))))  # creates a dictionary of class name and count
         self.LastCount = self.FrameCount [-1]                  # takes the most recent frame count
-    
-        
-        
+          
         if self.LastCount[0] == 'delete':
             if  10 < self.LastCount[1] <=15: 
                 self.ValueM = ''.join(str(self.LastCount[0]))      #ValueM(1,2,3) are temporary placeholders
-                self.textappendmain.emit (self.ValueM)                
-              
+                self.textappendmain.emit (self.ValueM)                          
         else:
             #Static Gestures
             if 10 <=  self.LastCount[1] <= 15 and not self.ValueM.endswith(str(self.LastCount[0])):  #Single Lettere Gloss 
@@ -806,7 +657,6 @@ class Window(QMainWindow):                             #Main Thread used for all
                     self.ValueM3 = ''.join(str(self.LastCount[0]))  
                     self.ValueM =''.join (self.ValueM3)
                     self.textappendmain.emit (self.ValueM)
-
                                                                #Uncomment dynamic gestures in gesture map to test z 
         #Lettering for z                        
         if self.LastCount[0] == 'z1' and 5 < self.LastCount[1] <=15 and not self.RecordZ:  
@@ -850,8 +700,7 @@ class Window(QMainWindow):                             #Main Thread used for all
               ##self.textappendmain.emit ('error4')          
               #self.RecordZ = ''                             #Reset RecordZ if the third sequence gesture is not z3  
 
-
-                                                              #Uncomment dynamic gestures in gesture map to test j 
+                                                             #Uncomment dynamic gestures in gesture map to test j 
         #Lettering for j                                      #j is the same as z
         if self.LastCount[0] == 'i' and 5 < self.LastCount[1] <=10 and not self.ValueJ:
                 self.ValueJ = ''.join('i')  
@@ -882,7 +731,6 @@ class Window(QMainWindow):                             #Main Thread used for all
         if self.FrameRecord [-2] != self.FrameRecord [-1]: 
               self.FrameRecord.clear()                  #Reset FrameRecord when a differnt gesture is detected before required frame count
               self.FrameCount.clear()
-
  
     @Slot ()                                            #Start Streaming
     def start (self):
@@ -898,8 +746,7 @@ class Window(QMainWindow):                             #Main Thread used for all
         self.ui.inputted_text.moveCursor(QTextCursor.End)
         self.ValueI = ''
         self.RECORD.clear()
-        
-        
+                
     @Slot ()                                        #End Streaming
     def end (self):                                 #Print to prompt to test any functions when stream ends
         self.ui.stop.setEnabled(False)
@@ -913,8 +760,7 @@ class Window(QMainWindow):                             #Main Thread used for all
        
         #print ('ValueM:  ',self.ValueM)
         #print ('ValueJ:  ',self.ValueJ)
-        #print ('RecordZ:  ',self.RecordZ)
-        
+        #print ('RecordZ:  ',self.RecordZ)        
         print ('FrameRecord:', self.FrameRecord)
         print ('FrameCount: ', self.FrameCount)
         print ('LastCount: ', self.LastCount) 
@@ -923,10 +769,7 @@ class Window(QMainWindow):                             #Main Thread used for all
         self.FrameRecord.clear()
         self.FrameCount.clear()
         #self.LastCount.clear()
-  
-       
-            
-
+             
 if __name__ == "__main__":                         #Start User-Interface Application
     app = QApplication(sys.argv)
     win = Window()
