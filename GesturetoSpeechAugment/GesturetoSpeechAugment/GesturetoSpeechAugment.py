@@ -1,34 +1,17 @@
-
 from re import S
-
 import ultralytics
-
 import supervision as sv
-
 import cv2
-
 import random
-
 from ultralytics import YOLO
-
 from roboflow import Roboflow
-
 from matplotlib import pyplot as plt
-
 import albumentations as A
-
 import numpy as np
-
 import os
-
 from sklearn.model_selection import train_test_split
-
 from tqdm import tqdm
-
 import os
-
-
-
 
 #Uncomment to download Dataset from Roboflow 
 '''
@@ -39,45 +22,32 @@ dataset = version.download("yolov8")
                           
 '''            
  
-
-
-
 #Uncomment to start Augmentation pipeline for dataset
 '''
 #Define Augmentations for dataset
           
 global h 
 h = 640                #Size of image based on dataset image sizwe
-
 global numaug
 numaug = 1             #Multiplier for Augments
-
 
 imagefold = r'T:\Current Data\kjldovpnqbd37outb_latest\train\images'                               #input folder that contains dataset images
 antfold = r'T:\Current Data\kjldovpnqbd37outb_latest\train\labels'                                 #ouput folder for labels of the augmented data
 outfold = r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\kjldovpnqbd38out'    #ouput folder for images of the augmented data
 
-
 #datasets were transformed separately and then combined
 #-------------------------------------------------------------------------------------------------------------------------------
 #outfold = r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\kjldovpnqbd37outb'
-
 #housefolder = r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\House_Room_Dataset'
-
 #housefolder= r'T:\Current Data\Combined_Dataset_latest'
-
 #colourfolder = r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\Colour Dataset'
-
 #colorclassificationfoler = r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\ColorClassification'
-
 #colourfolder= r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\Colour-Null-1'
 #-------------------------------------------------------------------------------------------------------------------------
 
 LISTROOM = []
 LISTCOL = []
-
 #def resize_img():                                     #Resize images in folder                 
-
    # output = r'F:\PythonDataFast\PoseTestingLaterVersion\PoseTestingLaterVersion\Resized_ColorClassification_Dataset'
     #for room in os.listdir (colorclassificationfoler ):
        # roomfolder = os.path.join(colorclassificationfoler , room)
@@ -86,16 +56,13 @@ LISTCOL = []
            #     continue
             #image_path = os.path.join(roomfolder, roomtype)
             #image = cv2.imread(image_path)
-            #resized_image = cv2.resize(image, (640, 640))
-            
+            #resized_image = cv2.resize(image, (640, 640))            
             #os.makedirs(output, exist_ok=True)
             #filename = os.path.basename(image_path)
             #output_path = os.path.join(output, filename)
            # cv2.imwrite(output_path, resized_image)
-
            # print(f"Resized image saved to {output_path}")
 #resize_img()
-
 
 #for room in os.listdir (housefolder):                              #Append images to List in numpy format
  #       roomfolder = os.path.join(housefolder, room)
@@ -119,7 +86,6 @@ LISTCOL = []
          #   Refcol = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
            # LISTCOL.append(Refcol)
        
-
 #Augmentation Transoforms Parameters 
 #Check https://github.com/albumentations-team/albumentations for more information about tranforms                       
 transform = A.Compose([
@@ -130,29 +96,22 @@ transform = A.Compose([
     A.RandomBrightnessContrast(brightness_limit=(-0.1, 0.1), contrast_limit =(-0.1, 0.1), p=0.25),
     A.HueSaturationValue (hue_shift_limit = (-15, 15), sat_shift_limit = (-15, 15), val_shift_limit = (-10, 10),  p= 0.25),
      
-
     #A.TemplateTransform(templates=LISTROOM, img_weight=0.5, template_weight= 0.75, p=1)        #The above transforms should be commented when using this transform
-
 
 ], bbox_params=A.BboxParams(format='yolo', label_fields=['classlabels'], min_visibility=0.2),
    keypoint_params=A.KeypointParams(format='xy', remove_invisible=False))
    
-
-
 def transformdata(image_files, imagefold, antfold, outfold):      #Function to transform data 
   numaug
-  h
-  
+  h  
   imgdir = os.path.join(outfold, 'images')                        #Creates image and label file directories
-  os.makedirs(imgdir, exist_ok=True)
-  
+  os.makedirs(imgdir, exist_ok=True)  
   labeldir = os.path.join(outfold, 'labels')
   os.makedirs(labeldir, exist_ok=True)
   
   for imgname in tqdm(image_files):                               #Save information from original files
        imgpath = os.path.join(imagefold, imgname)     
-       antpath = os.path.join(antfold, os.path.splitext(imgname)[0] + '.txt') 
-       
+       antpath = os.path.join(antfold, os.path.splitext(imgname)[0] + '.txt')      
        image = cv2.imread(imgpath)                                 #Read image files 
        bboxes = []                                                 #Initialize empty variables
        classlabels = []
@@ -178,11 +137,9 @@ def transformdata(image_files, imagefold, antfold, outfold):      #Function to t
           image = augmented['image']                                                                        #Paste and write the saved information to the label files for transformed data        
           classlabels = augmented['classlabels']
           bboxes = augmented['bboxes']
-          keypoints = augmented['keypoints']
-      
+          keypoints = augmented['keypoints']     
           augimgpath = os.path.join(imgdir, f"{os.path.splitext(imgname)[0]}_aug_{i}.jpg")
-          cv2.imwrite( augimgpath, image)
-      
+          cv2.imwrite( augimgpath, image)   
           auglabpath = os.path.join(labeldir, f"{os.path.splitext(imgname)[0]}_aug_{i}.txt")
           with open(auglabpath, 'w') as f:
                for label,bbox in zip(classlabels, bboxes):
@@ -196,8 +153,7 @@ def transformdata(image_files, imagefold, antfold, outfold):      #Function to t
                         f.write(f"{kp[0]/h} ")
                         f.write(f"{kp[1]/h} ")
                         f.write(f"{kp[2]} ")
-
-            
+           
 def augment(imagefold, antfold, outfold):                               #Splits dataset in train,test,val and then call transform function
   files = []
   for f in os.listdir(imagefold):
@@ -224,12 +180,8 @@ def augment(imagefold, antfold, outfold):                               #Splits 
   print("Test Images")
   transformdata(test, imagefold, antfold, testout)
     
-
 augment(imagefold, antfold, outfold)                                #Start Augmentation
 '''
-
-
-
 
 #Uncomment to test and visualize augments for one image
 '''
@@ -238,25 +190,20 @@ augment(imagefold, antfold, outfold)                                #Start Augme
 #cv2.waitKey(0)
 
 KEYPOINT_COLOR = (0, 255, 0) # Green
-
 def vis_keypoints(image, keypoints, xx,yy, ww, hh, color=KEYPOINT_COLOR, diameter=5):      #Function to map bounding box and keypoints coordinates on image
     image = image.copy()
 
     for (x, y) in keypoints:
         cv2.circle(image, (int(x), int(y)), diameter, (0, 255, 0), -1)
-
     cv2.rectangle(image, (int (xx-ww/2), int (yy-hh/2)),  (int (xx+ww/2), int(yy+hh/2)) , (255,255,255), 2)     
     plt.figure(figsize=(8, 8))
     plt.axis('off')
     plt.imshow(image)
     plt.show()
    
-
 image = cv2.imread('test.jpg')                                   #Load image file  
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 h, w, _ = image.shape
-
-
 bboxes = []
 classlabels = []
 keypoints = []
@@ -284,7 +231,6 @@ yy = h*yy
 ww = h*ww
 hh = h*hh
 vis_keypoints(image, keypoints, xx,yy,ww,hh)                      #Show orgianl image with bouding box and keypoints
-
                                                                    
 transform = A.Compose([                                           #Test Augments
      A.ShiftScaleRotate(shift_limit= (0,0), rotate_limit=(0,0),scale_limit=(-0.4, 0),border_mode = cv2.BORDER_REPLICATE, p=0),   
