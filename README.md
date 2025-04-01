@@ -91,8 +91,8 @@ Online datasets can be evaluated with the model by changing stream source to ima
 A livestream source was added. Just type livestreaming url such as youtube or twitch. Note, there is too much latency for livestreaming to work effectively. 
 
 # Demo
-[![Demo Application for Gesture to Speech ](https://img.youtube.com/vi/mnxsYEXihq8/0.jpg)](https://youtu.be/mnxsYEXihq8)
+
 The Demonstration for the application can be found on YouTube with the link:
 ```
-https://youtu.be/mnxsYEXihq8
+[![Demo Application for Gesture to Speech ](https://img.youtube.com/vi/mnxsYEXihq8/0.jpg)](https://youtu.be/mnxsYEXihq8)
 ```
