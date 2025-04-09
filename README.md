@@ -94,5 +94,5 @@ A livestream source was added. Just type livestreaming url such as youtube or tw
 
 The Demonstration for the application can be found on YouTube
 
-[![Demo Application for Gesture to Speech ](https://img.youtube.com/vi/Aqz2dF3Pt6A/0.jpg)](http://www.youtube.com/watch?v=Aqz2dF3Pt6A)
+[![Demo Application for Gesture to Speech ](https://img.youtube.com/vi/T21oyg0LL68/0.jpg)](http://www.youtube.com/watch?v=T21oyg0LL68)
 
