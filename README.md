@@ -28,7 +28,7 @@ This application automatically convert gestures in ASL fingerspelling to text an
 
 Gestures for '0' and 'o', and 'v' and '2' are the same. If the previous gesture is a number, the gesture is '0' and '2'. If the previous gesture is a letter, the gesture is 'o' and 'v'. Default states for those gestures are 'o' and '2'.
 
-Additional gestures: 'delete', 'enter' and 'space' are used to delete text, start speech and separte words. 
+Additional gestures: 'delete', 'enter' and 'space', are used to delete text, start speech and separte words. 
 
 Gestures glosses can also be cutomized to user-defined text
 
@@ -42,7 +42,7 @@ Tutorial:
 ```
 https://support.microsoft.com/en-us/windows/language-packs-for-windows-a5094319-a92d-18de-5b53-1cfc697cfca8
 ```
-For Translation to work, please uncomment Argos translate package and download desired model.
+For Translation to work, please uncomment Argos translate package code and download desired model.
 Models can be found here:
 ```
 https://github.com/argosopentech/argos-translate/blob/master/argostranslate/languages.csv
