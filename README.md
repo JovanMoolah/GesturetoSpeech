@@ -52,7 +52,7 @@ For example, English to Spanish would be: from_code="en", to_code="es"
 # User-Interface
 ![image](https://github.com/user-attachments/assets/2508ddc6-059e-4678-bf4c-a2b78a654e41)
 
-Stream can be started and stopped at anything time. After changing stream source, stop and restart stream. 
+Stream can be started and stopped at anything time. 
 
 Rate, pitch and volume controls the rate of speech, the pitch of the voice and volume of the voice.
 
@@ -60,11 +60,11 @@ Gesture glosses that are captured to text box can be renamed by editing the text
 
 Languages and voices for native (top) and translated (bottom) combo boxes can be changed. Languages must be installed in Windows Languages settings for it to be shown in the combobox.  
 
-When translate button is on, text is voiced in selected translate voice. When off text is voiced in native language. 
+When translate button is on, text is voiced in selected translate voice. When off, text is voiced in native language. 
 
-Concurrent voices text in real-time after every whitespace. Only works for native language.
+Concurrent voices text in real-time after every whitespace. It only works for native language.
 
-Buttons for start, stop, pause and resume control the speech duration. It voices words currently in the text box. Use when you retain information after speaking, otherwise, use 'enter' gesture.
+Buttons for start, stop, pause and resume control the speech duration. It voices words currently in the text box. Use to retain information after speaking, otherwise, use 'enter' gesture.
 
 Clear deletes all text in both native and translated text boxes.
 
